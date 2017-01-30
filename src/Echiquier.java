@@ -137,53 +137,26 @@ public class Echiquier {
     }
 
     public void initialiserEchiquier(){
-        Roi roiBlanc = new Roi('b', 3,0);
-        Roi roiNoir = new Roi('n', 4,7);
-        Dame dameBlanche = new Dame('b', 4,0);
-        Dame dameNoir = new Dame('n', 3,7);
-        Cavalier cavalierBlanc = new Cavalier('b', 2,0);
-        Cavalier cavalier2Blanc = new Cavalier('b', 5,0);
 
-
-        for(int i=0 ; i<8;i++){
-            ajouterPiece(new Pion('b', i,1));
-            ajouterPiece(new Pion('n', i, 6));
-        }
-
-        ajouterPiece(new Cavalier('b', 2,0));
-        ajouterPiece(new Cavalier('b',5,0));
-        ajouterPiece(new Cavalier('n',2,6));
-        ajouterPiece(new Cavalier('n',5,6));
-
-        for(int i=0; i<8;i++){ // Lignes
-            if(i==0 || i==7){
-                for(int j=0;j<8;j++){ // Colonnes
-                    char couleur;
-                    if(i==0){
-                        couleur ='b';
-                    }
-                    else couleur = 'n';
-                    switch (j){ // ordonnée
-                        case 0 :
-                        case 7 : ajouterPiece(new Tour(couleur, j,i )); break;
-                        case 1 :
-                        case 6 :ajouterPiece(new Fou(couleur, j,i)); break;
-                        case 2:
-                        case 5: ajouterPiece(new Cavalier(couleur, j,i)); break;
-
-                    }
-                }
+        for(int i=0;i<8;i++){
+            ajouterPiece(new Pion('b',i,1));
+            ajouterPiece(new Pion('n',i,6));
+            switch (i){
+                case 0:
+                case 7: ajouterPiece(new Tour('b',i,0)); ajouterPiece(new Tour('n',i,7)); break;
+                case 1:
+                case 6: ajouterPiece(new Fou('b', i, 0));ajouterPiece(new Fou('n', i, 7)); break;
+                case 2:
+                case 5: ajouterPiece(new Cavalier('b', i, 0)); ajouterPiece(new Cavalier('n', i, 7)); break;
+                case 3: ajouterPiece(new Roi('b',i,0)); ajouterPiece(new Dame('n', i, 7)); break;
+                case 4: ajouterPiece(new Dame('b',i,0)); ajouterPiece(new Roi('n',i,7)); break;
             }
 
-
         }
 
 
 
-        ajouterPiece(roiBlanc);
-        ajouterPiece(roiNoir);
-        ajouterPiece(dameBlanche);
-        ajouterPiece(dameNoir);
+
     }
 
 }
