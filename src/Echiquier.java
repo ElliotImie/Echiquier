@@ -84,8 +84,7 @@ public class Echiquier {
         int abscisseMax = matrice.length;
         int ordonneeMax = matrice[0].length;
 
-        String bordure ="------------------------------------";
-
+        String bordure = "---+---+---+---+---+---+---+---+---+";
 
         System.out.println(bordure);
         int idc = 8;
@@ -144,21 +143,19 @@ public class Echiquier {
             switch (i){
                 case 0:
                 case 7: ajouterPiece(new Tour('b',i,0)); ajouterPiece(new Tour('n',i,7)); break;
-                case 1:
-                case 6: ajouterPiece(new Fou('b', i, 0));ajouterPiece(new Fou('n', i, 7)); break;
                 case 2:
-                case 5: ajouterPiece(new Cavalier('b', i, 0)); ajouterPiece(new Cavalier('n', i, 7)); break;
+                case 5: ajouterPiece(new Fou('b', i, 0));ajouterPiece(new Fou('n', i, 7)); break;
+                case 1:
+                case 6: ajouterPiece(new Cavalier('b', i, 0)); ajouterPiece(new Cavalier('n', i, 7)); break;
                 case 3: ajouterPiece(new Roi('b',i,0)); ajouterPiece(new Dame('n', i, 7)); break;
                 case 4: ajouterPiece(new Dame('b',i,0)); ajouterPiece(new Roi('n',i,7)); break;
             }
-
         }
-
-
-
-
     }
 
+    public List<Piece> getListPiece() {
+        return listPiece;
+    }
 }
 
 
