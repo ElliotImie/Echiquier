@@ -56,7 +56,7 @@ public class Echiquier {
         //Initialisation de la matrice à vide :
         for(int i =0 ; i<8 ; i++){ //Ordonnée
             for(int j=0; j<8 ; j++){ // Abscisse
-                matrice[i][j] = "  ";
+                matrice[i][j] = " ";
             }
         }
 
@@ -64,7 +64,13 @@ public class Echiquier {
             for(int j=0; j<8 ; j++){ // Abscisse
                 for(Piece p : listPiece){
                     if(p.position.getPosX() == j && p.position.getPosY() == i){
-                        matrice[i][j] = Character.toString(p.getSymbole()) + p.getCouleur();
+                        if(p.getCouleur() == 'b') {
+                            matrice[i][j] = Character.toString((p.getSymbole())).toUpperCase();
+                        }
+                        else{
+                            matrice[i][j] = Character.toString(p.getSymbole()).toLowerCase();
+                        }
+
                     }
                 }
             }
@@ -78,18 +84,20 @@ public class Echiquier {
         int abscisseMax = matrice.length;
         int ordonneeMax = matrice[0].length;
 
-        String bordure ="--------------------------------------------";
+        String bordure ="------------------------------------";
 
-        System.out.println("   |  A |  B |  C |  D |  E |  F |  G |  H |");
+
         System.out.println(bordure);
-
+        int idc = 8;
         for(int i = 0; i<abscisseMax;i++){
-            System.out.print(" "+i+" |");
+            System.out.print(" "+idc+" |");
             for(int j = 0 ; j<ordonneeMax ;j++){
                 System.out.print(" "+matrice[i][j]+" |");
             }
             System.out.println("\n"+bordure);
+            idc--;
         }
+        System.out.println("   | A | B | C | D | E | F | G | H |");
 
     }
 
@@ -126,6 +134,56 @@ public class Echiquier {
 
         return echiquierRestaurer;
 
+    }
+
+    public void initialiserEchiquier(){
+        Roi roiBlanc = new Roi('b', 3,0);
+        Roi roiNoir = new Roi('n', 4,7);
+        Dame dameBlanche = new Dame('b', 4,0);
+        Dame dameNoir = new Dame('n', 3,7);
+        Cavalier cavalierBlanc = new Cavalier('b', 2,0);
+        Cavalier cavalier2Blanc = new Cavalier('b', 5,0);
+
+
+        for(int i=0 ; i<8;i++){
+            ajouterPiece(new Pion('b', i,1));
+            ajouterPiece(new Pion('n', i, 6));
+        }
+
+        ajouterPiece(new Cavalier('b', 2,0));
+        ajouterPiece(new Cavalier('b',5,0));
+        ajouterPiece(new Cavalier('n',2,6));
+        ajouterPiece(new Cavalier('n',5,6));
+
+        for(int i=0; i<8;i++){ // Lignes
+            if(i==0 || i==7){
+                for(int j=0;j<8;j++){ // Colonnes
+                    char couleur;
+                    if(i==0){
+                        couleur ='b';
+                    }
+                    else couleur = 'n';
+                    switch (j){ // ordonnée
+                        case 0 :
+                        case 7 : ajouterPiece(new Tour(couleur, j,i )); break;
+                        case 1 :
+                        case 6 :ajouterPiece(new Fou(couleur, j,i)); break;
+                        case 2:
+                        case 5: ajouterPiece(new Cavalier(couleur, j,i)); break;
+
+                    }
+                }
+            }
+
+
+        }
+
+
+
+        ajouterPiece(roiBlanc);
+        ajouterPiece(roiNoir);
+        ajouterPiece(dameBlanche);
+        ajouterPiece(dameNoir);
     }
 
 }
