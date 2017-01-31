@@ -5,7 +5,7 @@
 public class Fou extends Piece {
 
     public Fou(char couleur, int x, int y ){
-        super((byte)3, couleur, 'F', x,y);
+        super(valeureFou, couleur, symboleFou, x,y);
     }
 
 

@@ -71,13 +71,12 @@ public class Echiquier {
             for(int j=0; j<8 ; j++){ // Abscisse
                 for(Piece p : listPiece){
                     if(p.position.getPosX() == j && p.position.getPosY() == i){
-                        if(p.getCouleur() == 'b') {
+                        if(p.getCouleur() == Piece.couleur1) {
                             matrice[i][j] = Character.toString((p.getSymbole())).toUpperCase();
                         }
                         else{
                             matrice[i][j] = Character.toString(p.getSymbole()).toLowerCase();
                         }
-
                     }
                 }
             }
@@ -145,17 +144,17 @@ public class Echiquier {
     public void initialiserEchiquier(){
 
         for(int i=0;i<8;i++){
-            ajouterPiece(new Pion('b',i,1));
-            ajouterPiece(new Pion('n',i,6));
+            ajouterPiece(new Pion(Piece.couleur1,i,1));
+            ajouterPiece(new Pion(Piece.couleur2,i,6));
             switch (i){
                 case 0:
-                case 7: ajouterPiece(new Tour('b',i,0)); ajouterPiece(new Tour('n',i,7)); break;
+                case 7: ajouterPiece(new Tour(Piece.couleur1,i,0)); ajouterPiece(new Tour(Piece.couleur2,i,7)); break;
                 case 2:
-                case 5: ajouterPiece(new Fou('b', i, 0));ajouterPiece(new Fou('n', i, 7)); break;
+                case 5: ajouterPiece(new Fou(Piece.couleur1, i, 0));ajouterPiece(new Fou(Piece.couleur2, i, 7)); break;
                 case 1:
-                case 6: ajouterPiece(new Cavalier('b', i, 0)); ajouterPiece(new Cavalier('n', i, 7)); break;
-                case 3: ajouterPiece(new Roi('b',i,0)); ajouterPiece(new Dame('n', i, 7)); break;
-                case 4: ajouterPiece(new Dame('b',i,0)); ajouterPiece(new Roi('n',i,7)); break;
+                case 6: ajouterPiece(new Cavalier(Piece.couleur1, i, 0)); ajouterPiece(new Cavalier(Piece.couleur2, i, 7)); break;
+                case 3: ajouterPiece(new Roi(Piece.couleur1,i,0)); ajouterPiece(new Dame(Piece.couleur2, i, 7)); break;
+                case 4: ajouterPiece(new Dame(Piece.couleur1,i,0)); ajouterPiece(new Roi(Piece.couleur2,i,7)); break;
             }
         }
     }

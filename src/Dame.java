@@ -4,7 +4,7 @@
 public class Dame extends Piece {
 
     public Dame(char couleur, int x, int y ){
-        super((byte)9, couleur, 'D', x,y);
+        super(valeureDame, couleur, symboleDame, x,y);
     }
 
     @Override

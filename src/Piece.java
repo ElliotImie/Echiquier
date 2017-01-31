@@ -5,6 +5,20 @@
 import Exception.PosException;
 
 public abstract class Piece{
+    public static char couleur1 = 'b';
+    public static char couleur2 = 'n';
+    public static byte valeureRoi = 20;
+    public static byte valeureDame = 13;
+    public static byte valeureCavalier = 3;
+    public static byte valeureFou = 3;
+    public static byte valeureTour = 3;
+    public static byte valeurePion = 1;
+    public static char symboleRoi = 'R';
+    public static char symboleDame = 'D';
+    public static char symboleCavalier = 'C';
+    public static char symboleFou = 'F';
+    public static char symboleTour = 'T';
+    public static char symbolePion = 'P';
 
     protected byte valeure;
     protected char couleur;

@@ -4,7 +4,7 @@
 public class Pion extends Piece {
 
     public Pion(char couleur, int x, int y){
-        super((byte)1, couleur, 'P', x,y);
+        super(valeurePion, couleur, symbolePion, x,y);
     }
 
     @Override

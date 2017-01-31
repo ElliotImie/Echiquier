@@ -5,7 +5,7 @@
 public class Tour extends Piece {
 
     public Tour(char couleur, int x, int y) {
-        super((byte) 3, couleur, 'T', x, y);
+        super(valeureTour, couleur, symboleTour, x, y);
     }
 
     @Override

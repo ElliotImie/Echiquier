@@ -4,7 +4,7 @@
 public class Roi extends Piece {
 
     public Roi(char couleur, int x, int y ){
-        super((byte)20, couleur, 'R', x,y);
+        super(valeureRoi, couleur, symboleRoi, x,y);
     }
 
     @Override

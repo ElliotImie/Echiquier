@@ -4,7 +4,7 @@
 public class Cavalier extends Piece {
 
     public Cavalier(char couleur, int x, int y ){
-        super((byte)3, couleur, 'C', x,y);
+        super(valeureCavalier, couleur, symboleCavalier, x,y);
     }
 
     @Override
