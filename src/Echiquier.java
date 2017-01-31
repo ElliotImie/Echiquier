@@ -1,13 +1,20 @@
+import javax.swing.text.AttributeSet;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
 
 /**
  * Created by louveau.cdi04 on 27/01/2017.
  */
+
+
 public class Echiquier {
 
     private static Echiquier echiquier;
+    public static Scanner scan = new Scanner(System.in);
+
 
     protected List<Piece> listPiece;
 
@@ -155,6 +162,43 @@ public class Echiquier {
 
     public List<Piece> getListPiece() {
         return listPiece;
+    }
+
+    public Position saisiPosition(){
+
+        Position positionsaisi = null;
+
+        String position ;
+
+        boolean check = false;
+
+        do{
+            System.out.println("Saisir la position sous le forme : A2 ou a2");
+            position = scan.nextLine();
+
+            if(position.length() != 2){
+                System.out.println("Valeure saisie incorrect.");
+            }
+
+            else if(position.length() == 2){
+                int x = Position.convertiX(position.charAt(0));
+                int y = -1;
+                    try{
+                        y = Integer.parseInt(String.valueOf(position.charAt(1)));
+                    }catch (NumberFormatException nfe){
+                        System.out.println("Valeure saisie pour la ligne incorrecte");
+                    }
+                y = Position.convertiY(y);
+
+                if(x != -1 && y != -1 ){
+                    positionsaisi = new Position(x,y);
+                    check = true;
+                }
+            }
+        }while(!check);
+
+        return positionsaisi;
+
     }
 }
 

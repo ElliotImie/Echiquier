@@ -7,9 +7,28 @@ public class Pion extends Piece {
         super((byte)1, couleur, 'P', x,y);
     }
 
-
     @Override
     public boolean positionPossible(Position position) {
-        return true;
+
+        boolean estPossible = false;
+
+        //Vérifie que la position indiqué se trouve bien dans les limites de l'échiquier
+        if(position.getPosX() > 0 && position.getPosX() < 8 && position.getPosY()> 0 && position.getPosY() < 8){
+
+            //Si x égaux --> meme colonne,
+            if(this.getCouleur() == 'b'){
+                // Si couleur = b, ( Pieces du haut ), si position = +1 ( vers le bas ) --> est possible OK
+                if(this.position.getPosX() == position.getPosX() && position.getPosY() == this.position.getPosY()+1){
+                    estPossible = true;
+                }
+            }
+
+            else{
+                if(this.position.getPosX() == position.getPosX() && position.getPosY() == this.position.getPosY()-1){
+                    estPossible = true;
+                }
+            }
+        }
+        return estPossible;
     }
 }

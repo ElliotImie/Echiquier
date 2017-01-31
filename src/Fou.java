@@ -8,8 +8,25 @@ public class Fou extends Piece {
         super((byte)3, couleur, 'F', x,y);
     }
 
+
     @Override
     public boolean positionPossible(Position position) {
-        return true;
+
+        boolean estPossible = false;
+
+        //Vérifie que la position indiqué se trouve bien dans les limites de l'échiquier
+        if(position.getPosX() > 0 && position.getPosX() < 8 && position.getPosY()> 0 && position.getPosY() < 8){
+
+            // Vérification de la diagonale :
+            int distanceX = Math.abs(this.position.getPosX() - position.getPosX());
+            int distanceY = Math.abs(this.position.getPosY() - position.getPosY());
+
+            if(distanceX == distanceY){
+                estPossible = true;
+            }
+
+        }
+        return estPossible;
     }
 }
+
