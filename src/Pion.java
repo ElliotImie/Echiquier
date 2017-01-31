@@ -4,7 +4,7 @@
 public class Pion extends Piece {
 
     public Pion(char couleur, int x, int y){
-        super(valeurePion, couleur, symbolePion, x,y);
+        super(Echiquier.getValeurePion(), couleur, Echiquier.getSymbolePion(), x,y);
     }
 
     @Override

@@ -4,7 +4,7 @@
 public class Dame extends Piece {
 
     public Dame(char couleur, int x, int y ){
-        super(valeureDame, couleur, symboleDame, x,y);
+        super(Echiquier.getValeureDame(), couleur, Echiquier.getSymboleDame(), x,y);
     }
 
     @Override

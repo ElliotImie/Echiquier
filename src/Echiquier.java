@@ -12,14 +12,46 @@ import java.util.Scanner;
 
 public class Echiquier {
 
+    private static char couleur1;
+    private static char couleur2;
+    private static byte valeureRoi;
+    private static byte valeureDame;
+    private static byte valeureCavalier;
+    private static byte valeureFou;
+    private static byte valeureTour;
+    private static byte valeurePion;
+    private static char symboleRoi;
+    private static char symboleDame;
+    private static char symboleCavalier;
+    private static char symboleFou;
+    private static char symboleTour;
+    private static char symbolePion;
+
+
+
     private static Echiquier echiquier;
     public static Scanner scan = new Scanner(System.in);
 
 
     protected List<Piece> listPiece;
 
+    // Création de la liste de pièce + initialisation de toutes les valeures par défaut.
     private Echiquier(){
         listPiece = new ArrayList<Piece>();
+        couleur1 = 'b';
+        couleur2 ='n';
+        valeureRoi = 20;
+        valeureDame = 13;
+        valeureCavalier = 3;
+        valeureFou = 3;
+        valeureTour = 3;
+        valeurePion = 1;
+        symboleRoi = 'R';
+        symboleDame = 'D';
+        symboleCavalier = 'C';
+        symboleFou = 'F';
+        symboleTour = 'T';
+        symbolePion = 'P';
     }
 
     public static Echiquier getEchiquier(){
@@ -27,6 +59,118 @@ public class Echiquier {
             echiquier = new Echiquier();
         }
         return echiquier;
+    }
+
+    public static char getCouleur1() {
+        return couleur1;
+    }
+
+    public static void setCouleur1(char couleur1) {
+        Echiquier.couleur1 = couleur1;
+    }
+
+    public static char getCouleur2() {
+        return couleur2;
+    }
+
+    public static void setCouleur2(char couleur2) {
+        Echiquier.couleur2 = couleur2;
+    }
+
+    public static byte getValeureRoi() {
+        return valeureRoi;
+    }
+
+    public static void setValeureRoi(byte valeureRoi) {
+        Echiquier.valeureRoi = valeureRoi;
+    }
+
+    public static byte getValeureDame() {
+        return valeureDame;
+    }
+
+    public static void setValeureDame(byte valeureDame) {
+        Echiquier.valeureDame = valeureDame;
+    }
+
+    public static byte getValeureCavalier() {
+        return valeureCavalier;
+    }
+
+    public static void setValeureCavalier(byte valeureCavalier) {
+        Echiquier.valeureCavalier = valeureCavalier;
+    }
+
+    public static byte getValeureFou() {
+        return valeureFou;
+    }
+
+    public static void setValeureFou(byte valeureFou) {
+        Echiquier.valeureFou = valeureFou;
+    }
+
+    public static byte getValeureTour() {
+        return valeureTour;
+    }
+
+    public static void setValeureTour(byte valeureTour) {
+        Echiquier.valeureTour = valeureTour;
+    }
+
+    public static byte getValeurePion() {
+        return valeurePion;
+    }
+
+    public static void setValeurePion(byte valeurePion) {
+        Echiquier.valeurePion = valeurePion;
+    }
+
+    public static char getSymboleRoi() {
+        return symboleRoi;
+    }
+
+    public static void setSymboleRoi(char symboleRoi) {
+        Echiquier.symboleRoi = symboleRoi;
+    }
+
+    public static char getSymboleDame() {
+        return symboleDame;
+    }
+
+    public static void setSymboleDame(char symboleDame) {
+        Echiquier.symboleDame = symboleDame;
+    }
+
+    public static char getSymboleCavalier() {
+        return symboleCavalier;
+    }
+
+    public static void setSymboleCavalier(char symboleCavalier) {
+        Echiquier.symboleCavalier = symboleCavalier;
+    }
+
+    public static char getSymboleFou() {
+        return symboleFou;
+    }
+
+    public static void setSymboleFou(char symboleFou) {
+        Echiquier.symboleFou = symboleFou;
+    }
+
+    public static char getSymboleTour() {
+        return symboleTour;
+    }
+
+    public static void setSymboleTour(char symboleTour) {
+        Echiquier.symboleTour = symboleTour;
+    }
+
+    public static char getSymbolePion() {
+        return symbolePion;
+    }
+
+    public static void setSymbolePion(char symbolePion) {
+        Echiquier.symbolePion = symbolePion;
     }
 
     public void ajouterPiece(Piece piece){
@@ -71,7 +215,7 @@ public class Echiquier {
             for(int j=0; j<8 ; j++){ // Abscisse
                 for(Piece p : listPiece){
                     if(p.position.getPosX() == j && p.position.getPosY() == i){
-                        if(p.getCouleur() == Piece.couleur1) {
+                        if(p.getCouleur() == getCouleur1()) {
                             matrice[i][j] = Character.toString((p.getSymbole())).toUpperCase();
                         }
                         else{
@@ -103,6 +247,8 @@ public class Echiquier {
             idc--;
         }
         System.out.println("   | A | B | C | D | E | F | G | H |");
+        System.out.println(bordure);
+        System.out.println("\n");
 
     }
 
@@ -144,17 +290,33 @@ public class Echiquier {
     public void initialiserEchiquier(){
 
         for(int i=0;i<8;i++){
-            ajouterPiece(new Pion(Piece.couleur1,i,1));
-            ajouterPiece(new Pion(Piece.couleur2,i,6));
+            ajouterPiece(new Pion(getCouleur1(),i,1));
+            ajouterPiece(new Pion(getCouleur2(),i,6));
             switch (i){
                 case 0:
-                case 7: ajouterPiece(new Tour(Piece.couleur1,i,0)); ajouterPiece(new Tour(Piece.couleur2,i,7)); break;
+                case 7: ajouterPiece(new Tour(getCouleur1(),i,0)); ajouterPiece(new Tour(getCouleur2(),i,7)); break;
                 case 2:
-                case 5: ajouterPiece(new Fou(Piece.couleur1, i, 0));ajouterPiece(new Fou(Piece.couleur2, i, 7)); break;
+                case 5: ajouterPiece(new Fou(getCouleur1(), i, 0));ajouterPiece(new Fou(getCouleur2(), i, 7)); break;
                 case 1:
-                case 6: ajouterPiece(new Cavalier(Piece.couleur1, i, 0)); ajouterPiece(new Cavalier(Piece.couleur2, i, 7)); break;
-                case 3: ajouterPiece(new Roi(Piece.couleur1,i,0)); ajouterPiece(new Dame(Piece.couleur2, i, 7)); break;
-                case 4: ajouterPiece(new Dame(Piece.couleur1,i,0)); ajouterPiece(new Roi(Piece.couleur2,i,7)); break;
+                case 6: ajouterPiece(new Cavalier(getCouleur1(), i, 0)); ajouterPiece(new Cavalier(getCouleur2(), i, 7)); break;
+                case 3: ajouterPiece(new Roi(getCouleur1(),i,0)); ajouterPiece(new Dame(getCouleur2(), i, 7)); break;
+                case 4: ajouterPiece(new Dame(getCouleur1(),i,0)); ajouterPiece(new Roi(getCouleur2(),i,7)); break;
+            }
+        }
+    }
+
+    public void modifCouleur(char couleurAvant, char couleurApres){
+        for(Piece p : listPiece){
+            if(p.getCouleur() == couleurAvant){
+                p.setCouleur(couleurApres);
+            }
+        }
+    }
+
+    public void modifValeure(String nomPiece, byte valeure){
+        for(Piece p : listPiece){
+            if(p.getClass().getCanonicalName() == nomPiece){
+                p.setValeure(valeure);
             }
         }
     }

@@ -4,7 +4,7 @@
 public class Cavalier extends Piece {
 
     public Cavalier(char couleur, int x, int y ){
-        super(valeureCavalier, couleur, symboleCavalier, x,y);
+        super(Echiquier.getValeureCavalier(), couleur, Echiquier.getSymboleCavalier(), x,y);
     }
 
     @Override

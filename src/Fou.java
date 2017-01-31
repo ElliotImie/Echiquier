@@ -5,7 +5,7 @@
 public class Fou extends Piece {
 
     public Fou(char couleur, int x, int y ){
-        super(valeureFou, couleur, symboleFou, x,y);
+        super(Echiquier.getValeureFou(), couleur, Echiquier.getSymboleFou(), x,y);
     }
 
 

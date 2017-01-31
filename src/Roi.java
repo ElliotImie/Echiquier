@@ -4,7 +4,7 @@
 public class Roi extends Piece {
 
     public Roi(char couleur, int x, int y ){
-        super(valeureRoi, couleur, symboleRoi, x,y);
+        super(Echiquier.getValeureRoi(), couleur, Echiquier.getSymboleRoi(), x,y);
     }
 
     @Override

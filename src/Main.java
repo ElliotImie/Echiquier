@@ -13,6 +13,21 @@ public class Main {
 
         echiquier.afficher();
 
+        List<Piece> list = echiquier.getListPiece();
+
+        for(Piece p : list){
+            if(p.getClass().getCanonicalName() == "Roi"){
+                System.out.println(p.getValeure());
+            }
+        }
+
+        echiquier.modifValeure("Roi", (byte)10);
+
+        for(Piece p : list){
+            if(p.getClass().getCanonicalName() == "Roi"){
+                System.out.println(p.getValeure());
+            }
+        }
 
     }
 }

@@ -5,7 +5,7 @@
 public class Tour extends Piece {
 
     public Tour(char couleur, int x, int y) {
-        super(valeureTour, couleur, symboleTour, x, y);
+        super(Echiquier.getValeureTour(), couleur, Echiquier.getSymboleTour(), x, y);
     }
 
     @Override
