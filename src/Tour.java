@@ -9,6 +9,12 @@ public class Tour extends Piece {
     }
 
     @Override
+    public void setValeure(byte valeure) {
+        Echiquier.setValeureTour(valeure);
+        this.valeure = Echiquier.getValeureTour();
+    }
+
+    @Override
     public boolean positionPossible(Position position) {
 
         boolean estPossible = false;

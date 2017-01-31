@@ -8,6 +8,12 @@ public class Pion extends Piece {
     }
 
     @Override
+    public void setValeure(byte valeure) {
+        Echiquier.setValeurePion(valeure);
+        this.valeure = Echiquier.getValeurePion();
+    }
+
+    @Override
     public boolean positionPossible(Position position) {
 
         boolean estPossible = false;

@@ -3,6 +3,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.io.*;
+
 
 
 /**
@@ -14,12 +16,14 @@ public class Echiquier {
 
     private static char couleur1;
     private static char couleur2;
+
     private static byte valeureRoi;
     private static byte valeureDame;
     private static byte valeureCavalier;
     private static byte valeureFou;
     private static byte valeureTour;
     private static byte valeurePion;
+
     private static char symboleRoi;
     private static char symboleDame;
     private static char symboleCavalier;
@@ -27,13 +31,13 @@ public class Echiquier {
     private static char symboleTour;
     private static char symbolePion;
 
-
+// --> Créer un fichier contenant tous les paramètres
 
     private static Echiquier echiquier;
     public static Scanner scan = new Scanner(System.in);
 
 
-    protected List<Piece> listPiece;
+    private static List<Piece> listPiece;
 
     // Création de la liste de pièce + initialisation de toutes les valeures par défaut.
     private Echiquier(){
@@ -59,6 +63,12 @@ public class Echiquier {
             echiquier = new Echiquier();
         }
         return echiquier;
+    }
+
+    //region getter setter
+
+    public static List<Piece> getListPiece() {
+        return listPiece;
     }
 
     public static char getCouleur1() {
@@ -172,6 +182,8 @@ public class Echiquier {
     public static void setSymbolePion(char symbolePion) {
         Echiquier.symbolePion = symbolePion;
     }
+
+    // endregion
 
     public void ajouterPiece(Piece piece){
         listPiece.add(piece);
@@ -321,9 +333,6 @@ public class Echiquier {
         }
     }
 
-    public List<Piece> getListPiece() {
-        return listPiece;
-    }
 
     public Position saisiPosition(){
 
@@ -361,8 +370,65 @@ public class Echiquier {
         return positionsaisi;
 
     }
+
+    public void sauvegarderParametre(){
+
+        List<Character> tabSymbole = new ArrayList<>();
+
+        tabSymbole.add(0,getSymboleRoi());
+        tabSymbole.add(1,getSymboleDame());
+        tabSymbole.add(2,getSymboleCavalier());
+        tabSymbole.add(3,getSymboleFou());
+        tabSymbole.add(4,getSymboleTour());
+        tabSymbole.add(5,getSymbolePion());
+
+        List<Byte> tabValeure = new ArrayList<>();
+
+        tabValeure.add(0,getValeureRoi());
+        tabValeure.add(1,getValeureDame());
+        tabValeure.add(2,getValeureCavalier());
+        tabValeure.add(3,getValeureFou());
+        tabValeure.add(4,getValeureTour());
+        tabValeure.add(5,getValeurePion());
+
+        ObjectOutputStream objectOutputStream;
+
+        try{
+            objectOutputStream = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(new File("parametrePerso.txt"))));
+            objectOutputStream.writeObject(tabSymbole);
+            objectOutputStream.flush();
+            objectOutputStream.writeObject(tabValeure);
+            objectOutputStream.flush();
+            objectOutputStream.close();
+        }catch (IOException e){e.printStackTrace();}
+
+        System.out.println("Sauvegarde effectué");
+    }
+
+    public void lireParametre(){
+        ObjectInputStream objectInputStream;
+
+        List<Character> listSymbole = new ArrayList<>();
+        List<Byte> listValeure = new ArrayList<>();
+
+        try{
+            objectInputStream = new ObjectInputStream(new BufferedInputStream(new FileInputStream(new File("parametrePerso.txt"))));
+            listSymbole = (List<Character>)objectInputStream.readObject();
+            listValeure = (List<Byte>)objectInputStream.readObject();
+
+            System.out.println("Restaure bien effectué");
+            objectInputStream.close();
+        }catch (IOException | ClassNotFoundException e ) { e.printStackTrace();}
+
+        for(char c : listSymbole) {
+            System.out.println(c);
+        }
+
+        for(byte b : listValeure){
+            System.out.println(b);
+        }
+    }
+
 }
-
-
 
 

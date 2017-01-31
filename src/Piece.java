@@ -49,9 +49,8 @@ public abstract class Piece{
         return position;
     }
 
-    public void setValeure(byte valeure) {
-        this.valeure = valeure;
-    }
+    public abstract void setValeure(byte valeure);
+
 
     public void setCouleur(char couleur) {
         this.couleur = couleur;

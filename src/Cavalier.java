@@ -8,6 +8,12 @@ public class Cavalier extends Piece {
     }
 
     @Override
+    public void setValeure(byte valeure) {
+        Echiquier.setValeureCavalier(valeure);
+        this.valeure = Echiquier.getValeureCavalier();
+    }
+
+    @Override
     public boolean positionPossible(Position position) {
         return true;
     }

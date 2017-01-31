@@ -8,6 +8,12 @@ public class Roi extends Piece {
     }
 
     @Override
+    public void setValeure(byte valeure) {
+        Echiquier.setValeureRoi(valeure);
+        this.valeure = Echiquier.getValeureRoi();
+    }
+
+    @Override
     public boolean positionPossible(Position position) {
 
         boolean estPossible = false;

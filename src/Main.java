@@ -21,13 +21,25 @@ public class Main {
             }
         }
 
+
+
         echiquier.modifValeure("Roi", (byte)10);
+
 
         for(Piece p : list){
             if(p.getClass().getCanonicalName() == "Roi"){
                 System.out.println(p.getValeure());
             }
         }
+
+        echiquier.sauvegarderParametre();
+        echiquier.lireParametre();
+
+        echiquier.modifValeure("Dame", (byte)5);
+        echiquier.lireParametre();
+        echiquier.sauvegarderParametre();
+        echiquier.lireParametre();
+
 
     }
 }

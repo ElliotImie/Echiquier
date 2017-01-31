@@ -1,3 +1,5 @@
+import java.util.List;
+
 /**
  * Created by louveau.cdi04 on 27/01/2017.
  */
@@ -8,10 +10,17 @@ public class Dame extends Piece {
     }
 
     @Override
+    public void setValeure(byte valeure) {
+            Echiquier.setValeureDame(valeure);
+            this.valeure = Echiquier.getValeureDame();
+    }
+
+    @Override
     public boolean positionPossible(Position position) {
 
         boolean estPossible = false;
-
+        List<Piece> liste = Echiquier.getListPiece();
+// A continuer
         //Vérifie que la position indiqué se trouve bien dans les limites de l'échiquier
         if(position.getPosX() > 0 && position.getPosX() < 8 && position.getPosY()> 0 && position.getPosY() < 8){
 
