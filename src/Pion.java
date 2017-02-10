@@ -3,9 +3,10 @@
  */
 public class Pion extends Piece {
 
-    public Pion(char couleur, int x, int y){
-        super(Echiquier.getValeurePion(), couleur, Echiquier.getSymbolePion(), x,y);
-    }
+    public Pion(char couleur, Position position){
+        super(couleur, position);
+        this.valeure = Echiquier.getValeurePion();
+        this.symbole = Echiquier.getSymbolePion();    }
 
     @Override
     public void setValeure(byte valeure) {
@@ -18,12 +19,11 @@ public class Pion extends Piece {
 
         boolean estPossible = false;
 
-        //Vérifie que la position indiqué se trouve bien dans les limites de l'échiquier
-        if(position.getPosX() > 0 && position.getPosX() < 8 && position.getPosY()> 0 && position.getPosY() < 8){
+        if (deplacementPossible(position)){
 
             //Si x égaux --> meme colonne,
-            if(this.getCouleur() == 'b'){
-                // Si couleur = b, ( Pieces du haut ), si position = +1 ( vers le bas ) --> est possible OK
+            if(this.getCouleur() == Echiquier.getCouleur1()){
+                // Si couleur = couleur1 --> Pieces du haut , si position = +1 ( vers le bas ) --> est possible OK
                 if(this.position.getPosX() == position.getPosX() && position.getPosY() == this.position.getPosY()+1){
                     estPossible = true;
                 }
@@ -34,6 +34,8 @@ public class Pion extends Piece {
                     estPossible = true;
                 }
             }
+
+            // Gérer le cas des déplacement diagonale
         }
         return estPossible;
     }

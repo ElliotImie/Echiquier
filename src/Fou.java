@@ -4,9 +4,10 @@
 
 public class Fou extends Piece {
 
-    public Fou(char couleur, int x, int y ){
-        super(Echiquier.getValeureFou(), couleur, Echiquier.getSymboleFou(), x,y);
-    }
+    public Fou(char couleur, Position position ){
+        super(couleur, position);
+        this.valeure = Echiquier.getValeureFou();
+        this.symbole = Echiquier.getSymboleFou();    }
 
     @Override
     public void setValeure(byte valeure) {
@@ -20,8 +21,7 @@ public class Fou extends Piece {
 
         boolean estPossible = false;
 
-        //Vérifie que la position indiqué se trouve bien dans les limites de l'échiquier
-        if(position.getPosX() > 0 && position.getPosX() < 8 && position.getPosY()> 0 && position.getPosY() < 8){
+        if (deplacementPossible(position)){
 
             // Vérification de la diagonale :
             int distanceX = Math.abs(this.position.getPosX() - position.getPosX());
@@ -30,7 +30,6 @@ public class Fou extends Piece {
             if(distanceX == distanceY){
                 estPossible = true;
             }
-
         }
         return estPossible;
     }

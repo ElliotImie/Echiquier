@@ -94,22 +94,27 @@ public class Position {
     }
 
     // Converti ligne en int
-    public static int convertiY(int ligne){
+    public static int convertiY(char ligne){
 
         int y = -1;
 
         switch(ligne){
-            case 0 : y = 0;break;
-            case 1 : y = 1;break;
-            case 2 : y = 2;break;
-            case 3 : y = 3;break;
-            case 4 : y = 4;break;
-            case 5 : y = 5;break;
-            case 6 : y = 6;break;
-            case 7 : y = 7;break;
+            case '1' : y = 7;break;
+            case '2' : y = 6;break;
+            case '3' : y = 5;break;
+            case '4' : y = 4;break;
+            case '5' : y = 3;break;
+            case '6' : y = 2;break;
+            case '7': y = 1;break;
+            case '8': y = 0;break;
             default: y = -1;break;
         }
         return y;
+    }
+
+    // Converti string en pos
+    public static  Position position(String pos){
+        return new Position(convertiX(pos.charAt(0)), convertiY((pos.charAt(1))));
     }
 }
 

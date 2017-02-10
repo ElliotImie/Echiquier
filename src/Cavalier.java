@@ -3,8 +3,10 @@
  */
 public class Cavalier extends Piece {
 
-    public Cavalier(char couleur, int x, int y ){
-        super(Echiquier.getValeureCavalier(), couleur, Echiquier.getSymboleCavalier(), x,y);
+    public Cavalier(char couleur, Position position ){
+        super(couleur, position);
+        this.valeure = Echiquier.getValeureCavalier();
+        this.symbole = Echiquier.getSymboleCavalier();
     }
 
     @Override

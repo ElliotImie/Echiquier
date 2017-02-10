@@ -5,38 +5,41 @@ import java.util.List;
  */
 public class Dame extends Piece {
 
-    public Dame(char couleur, int x, int y ){
-        super(Echiquier.getValeureDame(), couleur, Echiquier.getSymboleDame(), x,y);
+    public Dame(char couleur, Position position) {
+        super(couleur, position);
+        this.valeure = Echiquier.getValeureDame();
+        this.symbole = Echiquier.getSymboleDame();
     }
 
     @Override
     public void setValeure(byte valeure) {
-            Echiquier.setValeureDame(valeure);
-            this.valeure = Echiquier.getValeureDame();
+        Echiquier.setValeureDame(valeure);
+        this.valeure = Echiquier.getValeureDame();
     }
+
 
     @Override
     public boolean positionPossible(Position position) {
 
-        boolean estPossible = false;
-        List<Piece> liste = Echiquier.getListPiece();
-// A continuer
-        //Vérifie que la position indiqué se trouve bien dans les limites de l'échiquier
-        if(position.getPosX() > 0 && position.getPosX() < 8 && position.getPosY()> 0 && position.getPosY() < 8){
+        if (deplacementPossible(position)) {
 
             //Si x ou y sont égaux, la dame se dirige en ligne droit --> OK
-            if(this.position.getPosX() == position.getPosX() || this.position.getPosY() == position.getPosY()){
-                estPossible = true;
+            if (this.position.getPosX() == position.getPosX() || this.position.getPosY() == position.getPosY()) {
+                return true;
             }
 
             // Vérification de la diagonale :
             int distanceX = Math.abs(this.position.getPosX() - position.getPosX());
             int distanceY = Math.abs(this.position.getPosY() - position.getPosY());
-            if(distanceX == distanceY){
-                estPossible = true;
+            if (distanceX == distanceY) {
+                return true;
             }
-
         }
-        return estPossible;
+        return false;
     }
+
+
+
+
+
 }

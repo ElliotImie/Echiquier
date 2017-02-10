@@ -31,17 +31,19 @@ public class Echiquier {
     private static char symboleTour;
     private static char symbolePion;
 
-// --> Créer un fichier contenant tous les paramètres
 
-    private static Echiquier echiquier;
     public static Scanner scan = new Scanner(System.in);
 
-
     private static List<Piece> listPiece;
+    private List<String> listJoueur;
 
+
+    // region ----------- CONSTRUCTEUR Singleton
+    private static Echiquier echiquier;
     // Création de la liste de pièce + initialisation de toutes les valeures par défaut.
     private Echiquier(){
         listPiece = new ArrayList<Piece>();
+        listJoueur = new ArrayList<String>();
         couleur1 = 'b';
         couleur2 ='n';
         valeureRoi = 20;
@@ -65,7 +67,9 @@ public class Echiquier {
         return echiquier;
     }
 
-    //region getter setter
+    //endregion
+
+    //region ----------- Getter setter
 
     public static List<Piece> getListPiece() {
         return listPiece;
@@ -185,20 +189,41 @@ public class Echiquier {
 
     // endregion
 
+    //region ----------- Méthodes PIECES ( Ajout, retrait, get )
+
     public void ajouterPiece(Piece piece){
         listPiece.add(piece);
     }
+    // Définir une autre methode ajouterPiece(Piece piece, Position position) dans le cas du pion qui fait réintégrer une piece
 
-    public Piece getPiece(Position position){
-        Piece piece = null;
+    public static void supprimerPiece(Piece piece) {
+        int nbPiece = listPiece.size();
+        for(int i =0 ; i<nbPiece ; i++){
+            if(listPiece.get(i).getPosition().equals(piece.getPosition())){
+                listPiece.remove(i);
+                System.out.println("Piece supprimé !");
+                break;
+            }
+        }
+    }
+
+    public static Piece getPiece(Position position){
 
         for(Piece p : listPiece){
             if(p.getPosition().equals(position)){
-                piece = p;
+                return p;
             }
         }
+        return null;
+    }
 
-        return piece;
+
+    //endregion
+
+    //region ----------- Méthode PARAMETRAGES JEU + Sauvegarde paramétrages( ajouterJoueur, getPoints, modif couleurCouleur, modifValeur, modifSymbole
+
+    public void ajouterJoueur(int idc, String joueur){
+        listJoueur.add(idc,joueur);
     }
 
     public int getPoints(char couleur){
@@ -212,6 +237,114 @@ public class Echiquier {
         }
         return point;
     }
+
+    public void modifCouleur(char couleurAvant, char couleurApres, int equipe){
+
+        for(Piece p : listPiece){
+            if(p.getCouleur() == couleurAvant){
+                p.setCouleur(couleurApres);
+            }
+        }
+        // Modifie les valeure de Echiquier.couleur1/2 pour pouvoir sauvegarder
+        switch (equipe){
+            case 1 : Echiquier.setCouleur1(couleurApres);
+                break;
+            case 2 : Echiquier.setCouleur2(couleurApres);
+                break;
+            default:
+                System.out.println("Modification de couleur impossible");
+        }
+    }
+
+    public void modifValeure(String nomPiece, byte valeure){
+        for(Piece p : listPiece){
+            if(p.getClass().getCanonicalName() == nomPiece){
+                p.setValeure(valeure);
+            }
+        }
+    }
+
+    public void modifSymbole(String nomPiece, char symbole){
+
+        // A D2FINIR ( Penser a redéfinir setSymbole en même temps;
+    }
+
+    public void sauvegarderParametre(){
+
+
+        List<Character> tabCouleur = new ArrayList<>();
+
+        tabCouleur.add(0,getCouleur1());
+        tabCouleur.add(1,getCouleur2());
+
+        List<Character> tabSymbole = new ArrayList<>();
+
+        tabSymbole.add(0,getSymboleRoi());
+        tabSymbole.add(1,getSymboleDame());
+        tabSymbole.add(2,getSymboleCavalier());
+        tabSymbole.add(3,getSymboleFou());
+        tabSymbole.add(4,getSymboleTour());
+        tabSymbole.add(5,getSymbolePion());
+
+        List<Byte> tabValeure = new ArrayList<>();
+
+        tabValeure.add(0,getValeureRoi());
+        tabValeure.add(1,getValeureDame());
+        tabValeure.add(2,getValeureCavalier());
+        tabValeure.add(3,getValeureFou());
+        tabValeure.add(4,getValeureTour());
+        tabValeure.add(5,getValeurePion());
+
+        ObjectOutputStream objectOutputStream;
+
+        try{
+            objectOutputStream = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(new File("parametrePerso.txt"))));
+            objectOutputStream.writeObject(tabCouleur);
+            objectOutputStream.flush();
+            objectOutputStream.writeObject(tabSymbole);
+            objectOutputStream.flush();
+            objectOutputStream.writeObject(tabValeure);
+            objectOutputStream.flush();
+            objectOutputStream.close();
+        }catch (IOException e){e.printStackTrace();}
+
+        System.out.println("Sauvegarde effectué");
+    }
+
+    public void lireParametre(){
+        ObjectInputStream objectInputStream;
+
+        List<Character> listSymbole = new ArrayList<>();
+        List<Character> listCouleur = new ArrayList<>();
+        List<Byte> listValeure = new ArrayList<>();
+
+        try{
+            objectInputStream = new ObjectInputStream(new BufferedInputStream(new FileInputStream(new File("parametrePerso.txt"))));
+            listSymbole = (List<Character>)objectInputStream.readObject();
+            listCouleur = (List<Character>)objectInputStream.readObject();
+            listValeure = (List<Byte>)objectInputStream.readObject();
+            System.out.println("Restaure bien effectué");
+            objectInputStream.close();
+        }catch (IOException | ClassNotFoundException e ) { e.printStackTrace();}
+
+
+        /* ----- Affiche / Vérification
+        for(char c : listCouleur){
+            System.out.println(c);
+        }
+
+        for(char c : listSymbole) {
+            System.out.println(c);
+        }
+
+        for(byte b : listValeure){
+            System.out.println(b);
+        }*/
+    }
+
+    //endregion
+
+    //region ----------- Méthode INITIALISATION / AFFICHAGES + Sauvegarde echiquier
 
     public String[][] construireMatrice(){
 
@@ -237,22 +370,41 @@ public class Echiquier {
                 }
             }
         }
-
         return matrice;
     }
+
+    public void initialiserEchiquier(){
+
+        for(int i=0;i<8;i++){
+            ajouterPiece(new Pion(getCouleur1(), new Position(i,1)));
+            ajouterPiece(new Pion(getCouleur2(),new Position(i,6)));
+            switch (i){
+                case 0:
+                case 7: ajouterPiece(new Tour(getCouleur1(),new Position(i,0))); ajouterPiece(new Tour(getCouleur2(),new Position(i,7))); break;
+                case 2:
+                case 5: ajouterPiece(new Fou(getCouleur1(), new Position(i,0) ));ajouterPiece(new Fou(getCouleur2(), new Position(i,7))); break;
+                case 1:
+                case 6: ajouterPiece(new Cavalier(getCouleur1(), new Position(i,0))); ajouterPiece(new Cavalier(getCouleur2(), new Position(i,7))); break;
+                case 3: ajouterPiece(new Roi(getCouleur1(),new Position(i,0))); ajouterPiece(new Dame(getCouleur2(), new Position(i,7))); break;
+                case 4: ajouterPiece(new Dame(getCouleur1(),new Position(i,0))); ajouterPiece(new Roi(getCouleur2(),new Position(i,7))); break;
+            }
+        }
+    }
+
     public void afficher(){
 
         String[][] matrice = construireMatrice();
-        int abscisseMax = matrice.length;
-        int ordonneeMax = matrice[0].length;
+
+        int ordonneeMax = matrice.length;
+        int abscisseMax = matrice[0].length;
+        int idc = 8;
 
         String bordure = "---+---+---+---+---+---+---+---+---+";
 
         System.out.println(bordure);
-        int idc = 8;
-        for(int i = 0; i<abscisseMax;i++){
+        for(int i = 0; i<ordonneeMax;i++){
             System.out.print(" "+idc+" |");
-            for(int j = 0 ; j<ordonneeMax ;j++){
+            for(int j = 0 ; j<abscisseMax ;j++){
                 System.out.print(" "+matrice[i][j]+" |");
             }
             System.out.println("\n"+bordure);
@@ -261,22 +413,26 @@ public class Echiquier {
         System.out.println("   | A | B | C | D | E | F | G | H |");
         System.out.println(bordure);
         System.out.println("\n");
-
     }
 
-    public void sauvegarde(){
+    public void sauvegarde() {
 
-        ObjectOutputStream objectOutputStream;
+        ObjectOutputStream objectOutputStream = null;
 
         try {
             objectOutputStream = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(new File("echiquier.txt"))));
             objectOutputStream.writeObject(listPiece);
             objectOutputStream.flush();
-            objectOutputStream.close() ;
+            System.out.println("La sauvegarde a bien été effectuée");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                objectOutputStream.close();
+            } catch (Exception e) {
+            }
 
-        } catch (IOException e) { e.printStackTrace () ; }
-
-        System.out.println("La sauvegarde a bien été effectuée");
+        }
     }
 
     public List<Piece> lireSauvegarde(){
@@ -286,9 +442,7 @@ public class Echiquier {
 
         try{
             objectInputStream = new ObjectInputStream(new BufferedInputStream(new FileInputStream(new File("formes.txt"))));
-
             echiquierRestaurer = (List<Piece>)objectInputStream.readObject();
-
             System.out.println("Restaure bien effectué");
             objectInputStream.close();
         }
@@ -296,50 +450,15 @@ public class Echiquier {
         { e.printStackTrace () ; }
 
         return echiquierRestaurer;
-
-    }
-
-    public void initialiserEchiquier(){
-
-        for(int i=0;i<8;i++){
-            ajouterPiece(new Pion(getCouleur1(),i,1));
-            ajouterPiece(new Pion(getCouleur2(),i,6));
-            switch (i){
-                case 0:
-                case 7: ajouterPiece(new Tour(getCouleur1(),i,0)); ajouterPiece(new Tour(getCouleur2(),i,7)); break;
-                case 2:
-                case 5: ajouterPiece(new Fou(getCouleur1(), i, 0));ajouterPiece(new Fou(getCouleur2(), i, 7)); break;
-                case 1:
-                case 6: ajouterPiece(new Cavalier(getCouleur1(), i, 0)); ajouterPiece(new Cavalier(getCouleur2(), i, 7)); break;
-                case 3: ajouterPiece(new Roi(getCouleur1(),i,0)); ajouterPiece(new Dame(getCouleur2(), i, 7)); break;
-                case 4: ajouterPiece(new Dame(getCouleur1(),i,0)); ajouterPiece(new Roi(getCouleur2(),i,7)); break;
-            }
-        }
-    }
-
-    public void modifCouleur(char couleurAvant, char couleurApres){
-        for(Piece p : listPiece){
-            if(p.getCouleur() == couleurAvant){
-                p.setCouleur(couleurApres);
-            }
-        }
-    }
-
-    public void modifValeure(String nomPiece, byte valeure){
-        for(Piece p : listPiece){
-            if(p.getClass().getCanonicalName() == nomPiece){
-                p.setValeure(valeure);
-            }
-        }
     }
 
 
-    public Position saisiPosition(){
+    // endregion
 
-        Position positionsaisi = null;
+  /*  public Position saisiPosition(){
 
+        Position positionSaisi = null;
         String position ;
-
         boolean check = false;
 
         do{
@@ -353,81 +472,37 @@ public class Echiquier {
             else if(position.length() == 2){
                 int x = Position.convertiX(position.charAt(0));
                 int y = -1;
-                    try{
-                        y = Integer.parseInt(String.valueOf(position.charAt(1)));
-                    }catch (NumberFormatException nfe){
-                        System.out.println("Valeure saisie pour la ligne incorrecte");
-                    }
+                try{
+                    y = Integer.parseInt(String.valueOf(position.charAt(1)));
+                }catch (NumberFormatException nfe){
+                    System.out.println("Valeure saisie pour la ligne incorrecte");
+                }
                 y = Position.convertiY(y);
 
-                if(x != -1 && y != -1 ){
-                    positionsaisi = new Position(x,y);
+                if(x > -1 && x<8 && y > -1 && y <8 ){
+                    positionSaisi = new Position(x,y);
                     check = true;
                 }
             }
         }while(!check);
 
-        return positionsaisi;
+        return positionSaisi;
+    }*/
 
-    }
 
-    public void sauvegarderParametre(){
 
-        List<Character> tabSymbole = new ArrayList<>();
 
-        tabSymbole.add(0,getSymboleRoi());
-        tabSymbole.add(1,getSymboleDame());
-        tabSymbole.add(2,getSymboleCavalier());
-        tabSymbole.add(3,getSymboleFou());
-        tabSymbole.add(4,getSymboleTour());
-        tabSymbole.add(5,getSymbolePion());
 
-        List<Byte> tabValeure = new ArrayList<>();
 
-        tabValeure.add(0,getValeureRoi());
-        tabValeure.add(1,getValeureDame());
-        tabValeure.add(2,getValeureCavalier());
-        tabValeure.add(3,getValeureFou());
-        tabValeure.add(4,getValeureTour());
-        tabValeure.add(5,getValeurePion());
 
-        ObjectOutputStream objectOutputStream;
 
-        try{
-            objectOutputStream = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(new File("parametrePerso.txt"))));
-            objectOutputStream.writeObject(tabSymbole);
-            objectOutputStream.flush();
-            objectOutputStream.writeObject(tabValeure);
-            objectOutputStream.flush();
-            objectOutputStream.close();
-        }catch (IOException e){e.printStackTrace();}
 
-        System.out.println("Sauvegarde effectué");
-    }
 
-    public void lireParametre(){
-        ObjectInputStream objectInputStream;
 
-        List<Character> listSymbole = new ArrayList<>();
-        List<Byte> listValeure = new ArrayList<>();
 
-        try{
-            objectInputStream = new ObjectInputStream(new BufferedInputStream(new FileInputStream(new File("parametrePerso.txt"))));
-            listSymbole = (List<Character>)objectInputStream.readObject();
-            listValeure = (List<Byte>)objectInputStream.readObject();
 
-            System.out.println("Restaure bien effectué");
-            objectInputStream.close();
-        }catch (IOException | ClassNotFoundException e ) { e.printStackTrace();}
 
-        for(char c : listSymbole) {
-            System.out.println(c);
-        }
 
-        for(byte b : listValeure){
-            System.out.println(b);
-        }
-    }
 
 }
 
